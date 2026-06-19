@@ -1,0 +1,73 @@
+@{
+    ViewData["Title"] = "المنتجات";
+}
+
+<div class="container">
+
+    <h2 class="text-center my-4">
+        @ViewBag.CategoryName.Name
+    </h2>
+
+    <form method="get" asp-action="Products" class="mb-4">
+        <input type="hidden" name="id" value="@ViewBag.CategoryId" />
+
+        <div class="row justify-content-center g-2">
+            <div class="col-md-6">
+                <input type="text"
+                       name="searchTerm"
+                       value="@ViewBag.CurrentSearch"
+                       class="form-control"
+                       placeholder="ابحث عن منتج..." />
+            </div>
+
+            <div class="col-md-2">
+                <button type="submit"
+                        class="btn w-100 text-white"
+                        style="background:#b67a8a;">
+                    بحث
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <div class="row g-4">
+
+        @foreach (var prod in ViewBag.FilteredProducts)
+        {
+            <div class="col-lg-4 col-md-6">
+
+                <div class="card shadow h-100">
+
+                    <img src="/images/@prod.Image"
+                         class="card-img-top p-3"
+                         style="height:250px; object-fit:cover;"
+                         alt="@prod.Name" />
+
+                    <div class="card-body text-center">
+
+                        <h4 class="fw-bold">
+                            @prod.Name
+                        </h4>
+
+                        <h5 style="color:#7b3f45;">
+                            @prod.Price ريال
+                        </h5>
+
+                        <a asp-action="Details"
+                           asp-route-name="@prod.Name"
+                           class="btn text-white"
+                           style="background:#b67a8a;">
+                            عرض التفاصيل
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+</div>
+

@@ -1,0 +1,94 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+body {
+    background: linear-gradient(135deg, #fffaf7, #f7eee9);
+    color: #3b2f2f;
+}
+
+.navbar {
+    background: #fff8f4 !important;
+}
+
+.navbar-brand {
+    color: #7b3f45 !important;
+    font-size: 24px;
+}
+
+.nav-link {
+    color: #5b4a4a !important;
+    font-weight: 600;
+}
+
+.nav-link:hover {
+    color: #9b5f68 !important;
+}
+
+h1, h2, h3, h4 {
+    color: #7b3f45;
+    font-weight: bold;
+}
+
+.card {
+    border: none;
+    border-radius: 18px;
+    background: #fffdfb;
+    box-shadow: 0 8px 22px rgba(123, 63, 69, 0.15) !important;
+}
+
+.card img {
+    border-radius: 16px 16px 0 0;
+}
+
+.btn-success {
+    background: linear-gradient(90deg, #7b3f45, #b47b84);
+    border: none;
+    color: white;
+    border-radius: 10px;
+}
+
+.btn-success:hover {
+    background: linear-gradient(90deg, #633238, #9f6670);
+}
+
+.form-control {
+    border-radius: 10px;
+    border: 1px solid #d8b8bd;
+}
+
+.form-control:focus {
+    border-color: #b47b84;
+    box-shadow: 0 0 0 0.2rem rgba(180, 123, 132, 0.25);
+}
+
+footer {
+    color: #7b3f45 !important;
+}

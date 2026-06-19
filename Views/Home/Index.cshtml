@@ -1,0 +1,90 @@
+﻿@{
+    ViewData["Title"] = "سِـدره";
+}
+
+<div class="text-center my-5">
+    <h1 class="fw-bold">سِـدره</h1>
+    <p class="text-muted fs-5">
+        سِـدره حيث تزهر المشاعر
+    </p>
+</div>
+
+<div class="container">
+    <div class="row g-4 justify-content-center">
+
+        @for (int i = 0; i < ViewBag.CategoriesList.Length; i++)
+        {
+            var category = ViewBag.CategoriesList[i];
+
+            <div class="col-md-4">
+                <div class="card shadow h-100 text-center">
+                    <div class="card-body">
+
+                        <h4 class="fw-bold mb-3">
+                            @category.Name
+                        </h4>
+
+                        <a asp-action="Products"
+                           asp-route-id="@category.Id"
+                           class="btn text-white"
+                           style="background:#b67a8a;">
+                            عرض المنتجات
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+
+    <h2 class="text-center mt-5 mb-4 fw-bold">
+        منتجات مميزة
+    </h2>
+
+    <div class="row g-4 justify-content-center">
+
+        <div class="col-md-3">
+            <div class="card shadow h-100 text-center">
+                <img src="/images/rose1.jpg"
+                     class="card-img-top p-3"
+                     style="height:180px; object-fit:cover;"
+                     alt="ورد توليب وردي" />
+
+                <div class="card-body">
+                    <h5 class="fw-bold">ورد توليب وردي</h5>
+                    <p style="color:#7b3f45;">120 ريال</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow h-100 text-center">
+                <img src="/images/rose2.jpg"
+                     class="card-img-top p-3"
+                     style="height:180px; object-fit:cover;"
+                     alt="ورد ليلي وردي" />
+
+                <div class="card-body">
+                    <h5 class="fw-bold">ورد ليلي وردي</h5>
+                    <p style="color:#7b3f45;">100 ريال</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow h-100 text-center">
+                <img src="/images/bouquet1.jpg"
+                     class="card-img-top p-3"
+                     style="height:180px; object-fit:cover;"
+                     alt="بوكيه ليلي فاخر" />
+
+                <div class="card-body">
+                    <h5 class="fw-bold">بوكيه ليلي فاخر</h5>
+                    <p style="color:#7b3f45;">250 ريال</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
