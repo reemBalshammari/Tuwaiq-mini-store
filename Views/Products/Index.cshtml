@@ -1,0 +1,35 @@
+@model List<mini_store.Models.Product>
+
+<div class="container mt-4" dir="rtl">
+
+    <h2 class="text-center mb-4">لوحة التحكم لإضافة المنتجات</h2>
+
+    <a href="/Products/Create" class="btn btn-primary mb-3">إضافة منتج</a>
+
+    <table class="table table-bordered text-center">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>اسم المنتج</th>
+                <th>سعر المنتج</th>
+                <th>إجراء</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                    <td>@item.Price</td>
+                    <td>
+                        <a href="/Products/Edit/@item.Id" class="btn btn-sm btn-warning">✏️</a>
+                    <a href="/Products/Delete/@item.Id" class="btn btn-sm btn-danger">🗑️</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

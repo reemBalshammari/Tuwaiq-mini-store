@@ -1,0 +1,30 @@
+@model mini_store.Models.Product
+
+<h2>Edit Product</h2>
+
+<form method="post">
+
+    <input asp-for="Id" hidden />
+
+    <div>
+        <label>Name</label>
+        <input asp-for="Name" />
+    </div>
+
+    <div>
+        <label>Price</label>
+        <input asp-for="Price" />
+    </div>
+
+    <div>
+        <label>Image</label>
+        <input asp-for="Image" />
+    </div>
+
+    <br />
+
+    <button type="submit">
+        Update
+    </button>
+
+</form>
