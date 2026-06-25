@@ -1,35 +1,101 @@
 @model List<mini_store.Models.Product>
+    @{
+    Layout = "_DashboardLayout";
+}
 
 <div class="container mt-4" dir="rtl">
 
-    <h2 class="text-center mb-4">لوحة التحكم لإضافة المنتجات</h2>
+    <h2 class="text-center mb-4">
+        لوحة التحكم لإضافة المنتجات
+    </h2>
 
-    <a href="/Products/Create" class="btn btn-primary mb-3">إضافة منتج</a>
+    <div class="card mt-4">
+        <div class="card-header">
+            إضافة منتج جديد
+        </div>
+
+        <div class="card-body">
+
+            <form asp-action="Create" method="post">
+
+                <label>اسم المنتج</label>
+                <input name="Name" class="form-control mb-3" placeholder="ادخل اسم المنتج" />
+
+                <label>سعر المنتج</label>
+                <input name="Price" class="form-control mb-3" placeholder="ادخل سعر المنتج" />
+
+                <label>صورة المنتج</label>
+                <input name="Image" class="form-control mb-3" placeholder="ادخل رابط الصورة" />
+
+                <button type="submit" class="btn btn-success">
+                    حفظ المنتج
+                </button>
+
+                <a href="/Home/Index" class="btn btn-secondary">
+                    إلغاء وعودة
+                </a>
+
+            </form>
+
+        </div>
+    </div>
+
+    <br />
 
     <table class="table table-bordered text-center">
+
         <thead>
             <tr>
                 <th>#</th>
                 <th>اسم المنتج</th>
                 <th>سعر المنتج</th>
+                <th>الصورة</th>
                 <th>إجراء</th>
             </tr>
         </thead>
 
         <tbody>
-            @foreach (var item in Model)
+
+            @if (Model == null || Model.Count == 0)
             {
                 <tr>
-                    <td>@item.Id</td>
-                    <td>@item.Name</td>
-                    <td>@item.Price</td>
-                    <td>
-                        <a href="/Products/Edit/@item.Id" class="btn btn-sm btn-warning">✏️</a>
-                    <a href="/Products/Delete/@item.Id" class="btn btn-sm btn-danger">🗑️</a>
-                    </td>
+                    <td colspan="5">لا توجد بيانات</td>
                 </tr>
             }
+            else
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>@item.Id</td>
+
+                        <td>@item.Name</td>
+
+                        <td>@item.Price</td>
+
+                        <td>@item.Image</td>
+
+                        <td>
+
+                            <a href="/Products/Edit/@item.Id"
+                               class="btn btn-warning btn-sm">
+                                ✏️
+                            </a>
+
+                            <a href="/Products/Delete/@item.Id"
+                               class="btn btn-danger btn-sm">
+                                🗑️
+                            </a>
+
+                        </td>
+
+                    </tr>
+                }
+            }
+
         </tbody>
+
     </table>
 
 </div>

@@ -1,0 +1,27 @@
+@model mini_store.Models.Categories
+
+<div class="container mt-4" dir="rtl">
+
+    <h2>Edit Product</h2>
+
+    <form method="post">
+
+        <input asp-for="Id" hidden />
+
+        <div>
+            <label>Name</label>
+            <input asp-for="Name" />
+        </div>
+
+        <div>
+            <label>Price</label>
+            <input asp-for="Icon" />
+        </div>
+
+        <br />
+
+        <button type="submit">Update</button>
+
+    </form>
+
+</div>
