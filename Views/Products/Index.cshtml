@@ -1,13 +1,12 @@
 @model List<mini_store.Models.Product>
-    @{
+
+@{
     Layout = "_DashboardLayout";
 }
 
 <div class="container mt-4" dir="rtl">
 
-    <h2 class="text-center mb-4">
-        لوحة التحكم لإضافة المنتجات
-    </h2>
+    <h2 class="text-center mb-4">لوحة التحكم لإضافة المنتجات</h2>
 
     <div class="card mt-4">
         <div class="card-header">
@@ -15,7 +14,6 @@
         </div>
 
         <div class="card-body">
-
             <form asp-action="Create" method="post">
 
                 <label>اسم المنتج</label>
@@ -27,6 +25,19 @@
                 <label>صورة المنتج</label>
                 <input name="Image" class="form-control mb-3" placeholder="ادخل رابط الصورة" />
 
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">الفئة</label>
+
+                    <select name="CategoryId" class="form-select">
+                        <option value="">اختر الفئة</option>
+
+                        @foreach (var item in ViewBag.categories)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </select>
+                </div>
+
                 <button type="submit" class="btn btn-success">
                     حفظ المنتج
                 </button>
@@ -36,7 +47,6 @@
                 </a>
 
             </form>
-
         </div>
     </div>
 
@@ -55,7 +65,6 @@
         </thead>
 
         <tbody>
-
             @if (Model == null || Model.Count == 0)
             {
                 <tr>
@@ -67,33 +76,26 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-
                         <td>@item.Id</td>
-
                         <td>@item.Name</td>
-
                         <td>@item.Price</td>
-
                         <td>@item.Image</td>
 
                         <td>
-
                             <a href="/Products/Edit/@item.Id"
                                class="btn btn-warning btn-sm">
-                                ✏️
+                                تعديل
                             </a>
 
                             <a href="/Products/Delete/@item.Id"
-                               class="btn btn-danger btn-sm">
-                                🗑️
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('هل أنت متأكد من حذف هذا المنتج؟')">
+                                حذف
                             </a>
-
                         </td>
-
                     </tr>
                 }
             }
-
         </tbody>
 
     </table>

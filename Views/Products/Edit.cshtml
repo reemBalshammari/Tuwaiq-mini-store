@@ -1,30 +1,50 @@
 @model mini_store.Models.Product
 
-<h2>Edit Product</h2>
+@{
+    Layout = "_DashboardLayout";
+}
 
-<form method="post">
+<div class="container mt-4" dir="rtl">
 
-    <input asp-for="Id" hidden />
+    <h2 class="text-center mb-4">تعديل المنتج</h2>
 
-    <div>
-        <label>Name</label>
-        <input asp-for="Name" />
-    </div>
+    <form asp-action="Edit" method="post">
 
-    <div>
-        <label>Price</label>
-        <input asp-for="Price" />
-    </div>
+        <input asp-for="Id" type="hidden" />
 
-    <div>
-        <label>Image</label>
-        <input asp-for="Image" />
-    </div>
+        <div class="mb-3">
+            <label>اسم المنتج</label>
+            <input asp-for="Name" class="form-control" />
+        </div>
 
-    <br />
+        <div class="mb-3">
+            <label>سعر المنتج</label>
+            <input asp-for="Price" class="form-control" />
+        </div>
 
-    <button type="submit">
-        Update
-    </button>
+        <div class="mb-3">
+            <label>صورة المنتج</label>
+            <input asp-for="Image" class="form-control" />
+        </div>
 
-</form>
+        <div class="mb-3">
+            <label>الفئة</label>
+            <select asp-for="CategoryId" class="form-select">
+                @foreach (var item in ViewBag.categories)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-success">
+            Update
+        </button>
+
+        <a href="/Products" class="btn btn-secondary">
+            رجوع
+        </a>
+
+    </form>
+
+</div>
