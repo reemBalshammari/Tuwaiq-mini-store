@@ -18,6 +18,8 @@
 
             <form asp-action="Create" method="post">
 
+                <div asp-validation-summary="All" class="text-danger"></div>
+
                 <div class="mb-3">
                     <label class="form-label">اسم الفئة</label>
                     <input type="text"
@@ -56,14 +58,12 @@
             <table class="table table-bordered text-center">
 
                 <thead>
-
                     <tr>
                         <th>#</th>
                         <th>اسم الفئة</th>
                         <th>أيقونة الفئة</th>
                         <th>إجراء</th>
                     </tr>
-
                 </thead>
 
                 <tbody>
@@ -76,16 +76,14 @@
                     }
                     else
                     {
-                        @foreach (Categories item in Model)
+                        @foreach (var item in Model)
                         {
                             <tr>
-
                                 <td>@item.Id</td>
                                 <td>@item.Name</td>
                                 <td>@item.Icon</td>
 
                                 <td>
-
                                     <a href="/Categories/Edit/@item.Id"
                                        class="btn btn-warning btn-sm">
                                         تعديل
@@ -96,9 +94,7 @@
                                        onclick="return confirm('هل أنت متأكد من حذف هذه الفئة؟')">
                                         حذف
                                     </a>
-
                                 </td>
-
                             </tr>
                         }
                     }
@@ -112,3 +108,8 @@
     </div>
 
 </div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
