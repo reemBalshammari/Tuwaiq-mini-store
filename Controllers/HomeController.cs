@@ -121,7 +121,7 @@ public IActionResult Login(string userName, string password)
     ViewBag.Message = "Login successfully";
     ViewBag.UserName = userName;
 
-    return View();
+    return RedirectToAction("Index", "Home");
 }
 public IActionResult About()
 {

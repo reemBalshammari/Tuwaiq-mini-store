@@ -1,16 +1,47 @@
 @model List<mini_store.Models.Product>
+@using System.Globalization
 
 @{
     Layout = "_DashboardLayout";
+    bool en = CultureInfo.CurrentUICulture.Name == "en-US";
 }
 
-<div class="container mt-4" dir="rtl">
+<div class="container mt-4">
 
-    <h2 class="text-center mb-4">لوحة التحكم لإضافة المنتجات</h2>
+    <h2 class="text-center mb-4">@(en ? "Dashboard" : "لوحة التحكم لإضافة المنتجات")</h2>
+
+    <div class="card mb-3 border-0 bg-light p-3 shadow-sm">
+        <form method="get" asp-action="Index" class="row g-3 align-items-end">
+
+            <div class="col-md-9">
+                <label class="form-label small fw-bold text-secondary">
+                    @(en ? "Search Product" : "ابحث باسم المنتج")
+                </label>
+
+                <input type="text"
+                       name="searchTerm"
+                       value="@ViewBag.CurrentSearch"
+                       class="form-control"
+                       placeholder="@(en ? "Enter product name" : "اكتب اسم المنتج هنا")" />
+            </div>
+
+            <div class="col-md-3 d-flex gap-2">
+                <button type="submit" class="btn btn-primary w-100 fw-bold">
+                    <i class="bi bi-search"></i>
+                    @(en ? "Search" : "بحث")
+                </button>
+
+                <a asp-action="Index" class="btn btn-secondary">
+                    @(en ? "Cancel" : "إلغاء")
+                </a>
+            </div>
+
+        </form>
+    </div>
 
     <div class="card mt-4">
         <div class="card-header">
-            إضافة منتج جديد
+            @(en ? "Add New Product" : "إضافة منتج جديد")
         </div>
 
         <div class="card-body">
@@ -20,27 +51,27 @@
                 <div asp-validation-summary="All" class="text-danger"></div>
 
                 <div class="mb-3">
-                    <label class="form-label">اسم المنتج</label>
-                    <input name="Name" class="form-control" placeholder="ادخل اسم المنتج" />
+                    <label class="form-label">@(en ? "Product Name" : "اسم المنتج")</label>
+                    <input name="Name" class="form-control" placeholder="@(en ? "Enter product name" : "ادخل اسم المنتج")" />
                     <span class="text-danger" data-valmsg-for="Name"></span>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">سعر المنتج</label>
-                    <input name="Price" type="number" step="0.01" class="form-control" placeholder="ادخل سعر المنتج" />
+                    <label class="form-label">@(en ? "Price" : "سعر المنتج")</label>
+                    <input name="Price" type="number" step="0.01" class="form-control" placeholder="@(en ? "Enter Price" : "ادخل سعر المنتج")" />
                     <span class="text-danger" data-valmsg-for="Price"></span>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">صورة المنتج</label>
+                    <label class="form-label">@(en ? "Product Image" : "صورة المنتج")</label>
                     <input name="ImageFile" type="file" class="form-control" accept="image/*" />
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">الفئة</label>
+                    <label class="form-label">@(en ? "Category" : "الفئة")</label>
 
                     <select name="CategoryId" class="form-select">
-                        <option value="">اختر الفئة</option>
+                        <option value="">@(en ? "Select Category" : "اختر الفئة")</option>
 
                         @foreach (var item in ViewBag.categories)
                         {
@@ -50,11 +81,11 @@
                 </div>
 
                 <button type="submit" class="btn btn-success">
-                    حفظ المنتج
+                    @(en ? "Save Product" : "حفظ المنتج")
                 </button>
 
                 <a asp-action="Index" class="btn btn-secondary">
-                    إلغاء وعودة
+                    @(en ? "Cancel Back" : "إلغاء وعودة")
                 </a>
 
             </form>
@@ -69,10 +100,10 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th>اسم المنتج</th>
-                <th>السعر</th>
-                <th>الصورة</th>
-                <th>إجراء</th>
+                <th>@(en ? "Product Name" : "اسم المنتج")</th>
+                <th>@(en ? "Price" : "السعر")</th>
+                <th>@(en ? "Image" : "الصورة")</th>
+                <th>@(en ? "Action" : "إجراء")</th>
             </tr>
         </thead>
 
@@ -81,15 +112,14 @@
             @if (Model == null || Model.Count == 0)
             {
                 <tr>
-                    <td colspan="5">لا توجد بيانات</td>
+                    <td colspan="5">@(en ? "No Data" : "لا توجد بيانات")</td>
                 </tr>
-            }
+                }
             else
             {
                 @foreach (var item in Model)
                 {
                     <tr>
-
                         <td>@item.Id</td>
                         <td>@item.Name</td>
                         <td>@item.Price</td>
@@ -105,16 +135,15 @@
 
                         <td>
                             <a href="/Products/Edit/@item.Id" class="btn btn-warning btn-sm">
-                                تعديل
+                                @(en ? "Edit" : "تعديل")
                             </a>
 
                             <a href="/Products/Delete/@item.Id"
                                class="btn btn-danger btn-sm"
-                               onclick="return confirm('هل أنت متأكد من حذف هذا المنتج؟')">
-                                حذف
+                               onclick="return confirm('@(en ? "Are you sure you want to delete this product?" : "هل أنت متأكد من حذف هذا المنتج؟")')">
+                                @(en ? "Delete" : "حذف")
                             </a>
                         </td>
-
                     </tr>
                 }
             }

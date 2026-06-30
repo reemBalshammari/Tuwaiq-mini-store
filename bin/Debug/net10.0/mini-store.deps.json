@@ -14,6 +14,14 @@
         },
         "runtime": {
           "mini-store.dll": {}
+        },
+        "resources": {
+          "ar/mini-store.resources.dll": {
+            "locale": "ar"
+          },
+          "en-US/mini-store.resources.dll": {
+            "locale": "en-US"
+          }
         }
       },
       "Azure.Core/1.47.1": {

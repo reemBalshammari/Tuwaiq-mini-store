@@ -16,15 +16,24 @@ namespace mini_store.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public IActionResult Index()
-        {
-            var products = _context.Products.ToList();
+       public IActionResult Index(string? searchTerm)
+{
+    var categories = _context.categories.ToList();
+    ViewBag.categories = categories;
 
-            ViewBag.categories = _context.categories.ToList();
+    var productsQuery = _context.Products.AsQueryable();
 
-            return View(products);
-        }
+    if (!string.IsNullOrEmpty(searchTerm))
+    {
+        productsQuery = productsQuery.Where(p => p.Name.Contains(searchTerm));
+    }
 
+    ViewBag.CurrentSearch = searchTerm;
+
+    var products = productsQuery.ToList();
+
+    return View(products);
+}
         public IActionResult Create()
         {
             ViewBag.categories = _context.categories.ToList();

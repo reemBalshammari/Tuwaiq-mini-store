@@ -1,66 +1,146 @@
-﻿<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+﻿@using System.Globalization
+
+@{
+    bool en = CultureInfo.CurrentUICulture.Name == "en-US";
+}
+
+<!DOCTYPE html>
+<html lang="@(en ? "en" : "ar")" dir="@(en ? "ltr" : "rtl")">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - سِـدره</title>
-    <script type="importmap"></script>
+    <title>@ViewData["Title"] - @(en ? "Sidrah" : "سِـدره")</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/mini_store.styles.css" asp-append-version="true" />
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand fw-bold text-success" asp-area="" asp-controller="Home" asp-action="Index">سِـدره</a>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+<header>
+    <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container-fluid">
 
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+            <a class="navbar-brand fw-bold text-success"
+               asp-controller="Home"
+               asp-action="Index">
+                @(en ? "Sidrah" : "سِـدره")
+            </a>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">الرئيسية</a>
-                        </li>
-                        <li class="nav-item">
-    <a class="nav-link text-dark"
-       asp-controller="Home"
-       asp-action="About">عن المتجر</a>
-</li>
+            <button class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">الخصوصية</a>
-                        </li>
-                        <li class="nav-item ms-auto">
-    <a class="nav-link text-dark"
-       asp-controller="Home"
-       asp-action="Login">تسجيل الدخول</a>
-</li>
+            <div class="collapse navbar-collapse" id="navbar">
 
-                    </ul>
-                </div>
+                <ul class="navbar-nav me-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           asp-controller="Home"
+                           asp-action="Index">
+                            @(en ? "Home" : "الرئيسية")
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           asp-controller="Home"
+                           asp-action="About">
+                            @(en ? "About Store" : "عن المتجر")
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           asp-controller="Home"
+                           asp-action="Privacy">
+                            @(en ? "Privacy" : "الخصوصية")
+                        </a>
+                    </li>
+
+                </ul>
+
+                <ul class="navbar-nav">
+
+                    <li class="nav-item me-2">
+                        <form asp-controller="Language"
+                              asp-action="SetLanguage"
+                              method="post">
+
+                            <input type="hidden"
+                                   name="culture"
+                                   value="ar" />
+
+                            <input type="hidden"
+                                   name="returnUrl"
+                                   value="@Context.Request.Path@Context.Request.QueryString" />
+
+                            <button class="btn btn-outline-secondary btn-sm"
+                                    type="submit">
+                                Arabic
+                            </button>
+                        </form>
+                    </li>
+
+                    <li class="nav-item me-3">
+                        <form asp-controller="Language"
+                              asp-action="SetLanguage"
+                              method="post">
+
+                            <input type="hidden"
+                                   name="culture"
+                                   value="en-US" />
+
+                            <input type="hidden"
+                                   name="returnUrl"
+                                   value="@Context.Request.Path@Context.Request.QueryString" />
+
+                            <button class="btn btn-outline-secondary btn-sm"
+                                    type="submit">
+                                English
+                            </button>
+                        </form>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           asp-controller="Home"
+                           asp-action="Login">
+                           @(en ? "Login" : "تسجيل الدخول")
+                        </a>
+                    </li>
+
+                </ul>
+
             </div>
-        </nav>
-    </header>
-
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container text-center">
-            &copy; 2026 - سِـدره | حيث تزهر المشاعر
         </div>
-    </footer>
+    </nav>
+</header>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+<div class="container">
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+</div>
+
+<footer class="border-top footer text-muted">
+    <div class="container text-center">
+        © 2026 -
+        @(en ? "Sidrah | Where Feelings Bloom"
+             : "سِـدره | حيث تزهر المشاعر")
+    </div>
+</footer>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+
+@await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>

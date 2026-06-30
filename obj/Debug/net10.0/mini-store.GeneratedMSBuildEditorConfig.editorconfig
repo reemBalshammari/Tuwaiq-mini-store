@@ -94,3 +94,11 @@ build_metadata.AdditionalFiles.CssScope =
 [C:/mini-store/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-o4r0hwfhe3
+
+[C:/mini-store/Resources/SharedResource.ar.resx]
+build_metadata.AdditionalFiles.TargetPath = Resources\SharedResource.ar.resx
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/mini-store/Resources/SharedResource.en-US.resx]
+build_metadata.AdditionalFiles.TargetPath = Resources\SharedResource.en-US.resx
+build_metadata.AdditionalFiles.CssScope = 

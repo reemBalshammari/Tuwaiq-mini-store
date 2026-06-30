@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+
+  <data name="StoreSystem" xml:space="preserve"><value>نظام المتجر</value></data>
+  <data name="Dashboard" xml:space="preserve"><value>لوحة التحكم لإضافة المنتجات</value></data>
+  <data name="Home" xml:space="preserve"><value>الرئيسية</value></data>
+  <data name="Categories" xml:space="preserve"><value>الفئات</value></data>
+  <data name="Products" xml:space="preserve"><value>المنتجات</value></data>
+  <data name="Reports" xml:space="preserve"><value>التقارير</value></data>
+  <data name="Logout" xml:space="preserve"><value>تسجيل الخروج</value></data>
+  <data name="SearchProduct" xml:space="preserve"><value>ابحث باسم المنتج</value></data>
+  <data name="EnterProductName" xml:space="preserve"><value>اكتب اسم المنتج هنا</value></data>
+  <data name="Search" xml:space="preserve"><value>بحث</value></data>
+  <data name="Cancel" xml:space="preserve"><value>إلغاء</value></data>
+  <data name="AddNewProduct" xml:space="preserve"><value>إضافة منتج جديد</value></data>
+  <data name="ProductName" xml:space="preserve"><value>اسم المنتج</value></data>
+  <data name="Price" xml:space="preserve"><value>السعر</value></data>
+  <data name="EnterPrice" xml:space="preserve"><value>ادخل سعر المنتج</value></data>
+  <data name="ProductImage" xml:space="preserve"><value>صورة المنتج</value></data>
+  <data name="Category" xml:space="preserve"><value>الفئة</value></data>
+  <data name="SelectCategory" xml:space="preserve"><value>اختر الفئة</value></data>
+  <data name="SaveProduct" xml:space="preserve"><value>حفظ المنتج</value></data>
+  <data name="CancelBack" xml:space="preserve"><value>إلغاء وعودة</value></data>
+  <data name="Image" xml:space="preserve"><value>الصورة</value></data>
+  <data name="Action" xml:space="preserve"><value>إجراء</value></data>
+  <data name="Edit" xml:space="preserve"><value>تعديل</value></data>
+  <data name="Delete" xml:space="preserve"><value>حذف</value></data>
+  <data name="NoData" xml:space="preserve"><value>لا توجد بيانات</value></data>
+  <data name="AddCategories" xml:space="preserve">
+  <value>إضافة الفئات</value>
+</data>
+
+<data name="AddNewCategory" xml:space="preserve">
+  <value>إضافة فئة جديدة</value>
+</data>
+
+<data name="CategoryName" xml:space="preserve">
+  <value>اسم الفئة</value>
+</data>
+
+<data name="EnterCategoryName" xml:space="preserve">
+  <value>ادخل اسم الفئة</value>
+</data>
+
+<data name="Icon" xml:space="preserve">
+  <value>الأيقونة</value>
+</data>
+
+<data name="EnterIconCode" xml:space="preserve">
+  <value>ادخل كود الأيقونة</value>
+</data>
+
+<data name="SaveCategory" xml:space="preserve">
+  <value>حفظ الفئة</value>
+</data>
+
+<data name="Back" xml:space="preserve">
+  <value>رجوع</value>
+</data>
+
+<data name="CategoryIcon" xml:space="preserve">
+  <value>أيقونة الفئة</value>
+</data>
+
+<data name="DeleteConfirmCategory" xml:space="preserve">
+  <value>هل أنت متأكد من حذف هذه الفئة؟</value>
+</data>
+</root>

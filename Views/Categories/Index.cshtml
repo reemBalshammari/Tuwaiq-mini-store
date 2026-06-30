@@ -1,77 +1,71 @@
 @model List<mini_store.Models.Categories>
+@using System.Globalization
 
 @{
     Layout = "_DashboardLayout";
+    bool en = CultureInfo.CurrentUICulture.Name == "en-US";
 }
 
-<div class="container mt-4" dir="rtl">
+<div class="container mt-4">
 
-    <h1 class="text-center">إضافة الفئات</h1>
+    <h1 class="text-center">@(en ? "Categories" : "إضافة الفئات")</h1>
 
     <div class="card mt-4">
-
         <div class="card-header">
-            <h5>إضافة فئة جديدة</h5>
+            <h5>@(en ? "Add New Category" : "إضافة فئة جديدة")</h5>
         </div>
 
         <div class="card-body">
-
             <form asp-action="Create" method="post">
 
                 <div asp-validation-summary="All" class="text-danger"></div>
 
                 <div class="mb-3">
-                    <label class="form-label">اسم الفئة</label>
+                    <label class="form-label">@(en ? "Category Name" : "اسم الفئة")</label>
                     <input type="text"
                            name="Name"
                            class="form-control"
-                           placeholder="ادخل اسم الفئة" />
+                           placeholder="@(en ? "Enter Category Name" : "ادخل اسم الفئة")" />
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">الأيقونة</label>
+                    <label class="form-label">@(en ? "Icon" : "الأيقونة")</label>
                     <input type="text"
                            name="Icon"
                            class="form-control"
-                           placeholder="ادخل كود الأيقونة" />
+                           placeholder="@(en ? "Enter Icon Code" : "ادخل كود الأيقونة")" />
                 </div>
 
                 <button type="submit" class="btn btn-success">
-                    حفظ الفئة
+                    @(en ? "Save Category" : "حفظ الفئة")
                 </button>
 
                 <a href="/Home/Index" class="btn btn-light">
-                    رجوع
+                    @(en ? "Back" : "رجوع")
                 </a>
 
             </form>
-
         </div>
-
     </div>
 
-
     <div class="card mt-5">
-
         <div class="card-body">
 
             <table class="table table-bordered text-center">
-
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>اسم الفئة</th>
-                        <th>أيقونة الفئة</th>
-                        <th>إجراء</th>
+                        <th>@(en ? "Category Name" : "اسم الفئة")</th>
+                        <th>@(en ? "Category Icon" : "أيقونة الفئة")</th>
+                        <th>@(en ? "Action" : "إجراء")</th>
                     </tr>
                 </thead>
 
                 <tbody>
-
                     @if (Model == null || Model.Count == 0)
                     {
                         <tr>
-                            <td colspan="4">لا توجد بيانات</td>
+                            <td colspan="4">@(en ? "No Data" : "لا توجد بيانات")</td>
                         </tr>
                     }
                     else
@@ -84,27 +78,23 @@
                                 <td>@item.Icon</td>
 
                                 <td>
-                                    <a href="/Categories/Edit/@item.Id"
-                                       class="btn btn-warning btn-sm">
-                                        تعديل
+                                    <a href="/Categories/Edit/@item.Id" class="btn btn-warning btn-sm">
+                                        @(en ? "Edit" : "تعديل")
                                     </a>
 
                                     <a href="/Categories/Delete/@item.Id"
                                        class="btn btn-danger btn-sm"
-                                       onclick="return confirm('هل أنت متأكد من حذف هذه الفئة؟')">
-                                        حذف
+                                       onclick="return confirm('@(en ? "Are you sure you want to delete this category?" : "هل أنت متأكد من حذف هذه الفئة؟")')">
+                                        @(en ? "Delete" : "حذف")
                                     </a>
                                 </td>
                             </tr>
                         }
                     }
-
                 </tbody>
-
             </table>
 
         </div>
-
     </div>
 
 </div>
