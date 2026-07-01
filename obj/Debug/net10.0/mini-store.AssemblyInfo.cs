@@ -10,10 +10,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("mini-store")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+34b1692792374f1bbf52d7fb077ffc7668327a70")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1ced701c75c1dbd338f439a1e55c54c6f0415e0c")]
 [assembly: System.Reflection.AssemblyProductAttribute("mini-store")]
 [assembly: System.Reflection.AssemblyTitleAttribute("mini-store")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,4 +1,8 @@
 ﻿@using System.Globalization
+@using Microsoft.AspNetCore.Identity
+@using mini_store.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 @{
     bool en = CultureInfo.CurrentUICulture.Name == "en-US";
@@ -22,101 +26,96 @@
     <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container-fluid">
 
-            <a class="navbar-brand fw-bold text-success"
-               asp-controller="Home"
-               asp-action="Index">
+            <a class="navbar-brand fw-bold text-success" asp-controller="Home" asp-action="Index">
                 @(en ? "Sidrah" : "سِـدره")
             </a>
 
-            <button class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
             <div class="collapse navbar-collapse" id="navbar">
-
                 <ul class="navbar-nav me-auto">
-
                     <li class="nav-item">
-                        <a class="nav-link"
-                           asp-controller="Home"
-                           asp-action="Index">
-                            @(en ? "Home" : "الرئيسية")
-                        </a>
+                        <a class="nav-link" asp-controller="Home" asp-action="Index">@(en ? "Home" : "الرئيسية")</a>
                     </li>
-
                     <li class="nav-item">
-                        <a class="nav-link"
-                           asp-controller="Home"
-                           asp-action="About">
-                            @(en ? "About Store" : "عن المتجر")
-                        </a>
+                        <a class="nav-link" asp-controller="Home" asp-action="About">@(en ? "About Store" : "عن المتجر")</a>
                     </li>
-
                     <li class="nav-item">
-                        <a class="nav-link"
-                           asp-controller="Home"
-                           asp-action="Privacy">
-                            @(en ? "Privacy" : "الخصوصية")
-                        </a>
+                        <a class="nav-link" asp-controller="Home" asp-action="Privacy">@(en ? "Privacy" : "الخصوصية")</a>
                     </li>
-
                 </ul>
 
                 <ul class="navbar-nav">
 
                     <li class="nav-item me-2">
-                        <form asp-controller="Language"
-                              asp-action="SetLanguage"
-                              method="post">
-
-                            <input type="hidden"
-                                   name="culture"
-                                   value="ar" />
-
-                            <input type="hidden"
-                                   name="returnUrl"
-                                   value="@Context.Request.Path@Context.Request.QueryString" />
-
-                            <button class="btn btn-outline-secondary btn-sm"
-                                    type="submit">
-                                Arabic
-                            </button>
+                        <form asp-controller="Language" asp-action="SetLanguage" method="post">
+                            <input type="hidden" name="culture" value="ar" />
+                            <input type="hidden" name="returnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
+                            <button class="btn btn-outline-secondary btn-sm" type="submit">Arabic</button>
                         </form>
                     </li>
 
                     <li class="nav-item me-3">
-                        <form asp-controller="Language"
-                              asp-action="SetLanguage"
-                              method="post">
-
-                            <input type="hidden"
-                                   name="culture"
-                                   value="en-US" />
-
-                            <input type="hidden"
-                                   name="returnUrl"
-                                   value="@Context.Request.Path@Context.Request.QueryString" />
-
-                            <button class="btn btn-outline-secondary btn-sm"
-                                    type="submit">
-                                English
-                            </button>
+                        <form asp-controller="Language" asp-action="SetLanguage" method="post">
+                            <input type="hidden" name="culture" value="en-US" />
+                            <input type="hidden" name="returnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
+                            <button class="btn btn-outline-secondary btn-sm" type="submit">English</button>
                         </form>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           asp-controller="Home"
-                           asp-action="Login">
-                           @(en ? "Login" : "تسجيل الدخول")
-                        </a>
-                    </li>
+                    @if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle"
+           href="#"
+           role="button"
+           data-bs-toggle="dropdown">
+            @UserManager.GetUserAsync(User).Result?.FullName
+        </a>
+
+        <ul class="dropdown-menu dropdown-menu-end">
+
+            <li class="dropdown-item text-muted">
+                @UserManager.GetUserAsync(User).Result?.FullName
+            </li>
+
+            <li><hr class="dropdown-divider"></li>
+
+            <li>
+                <form asp-controller="Account"
+                      asp-action="Logout"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit"
+                            class="dropdown-item">
+                        @(en ? "Logout" : "تسجيل الخروج")
+                    </button>
+                </form>
+            </li>
+
+        </ul>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link"
+           asp-controller="Account"
+           asp-action="Register">
+            @(en ? "Register" : "إنشاء حساب")
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link"
+           asp-controller="Account"
+           asp-action="Login">
+            @(en ? "Login" : "تسجيل الدخول")
+        </a>
+    </li>
+}
 
                 </ul>
-
             </div>
         </div>
     </nav>
@@ -130,9 +129,7 @@
 
 <footer class="border-top footer text-muted">
     <div class="container text-center">
-        © 2026 -
-        @(en ? "Sidrah | Where Feelings Bloom"
-             : "سِـدره | حيث تزهر المشاعر")
+        © 2026 - @(en ? "Sidrah | Where Feelings Bloom" : "سِـدره | حيث تزهر المشاعر")
     </div>
 </footer>
 
