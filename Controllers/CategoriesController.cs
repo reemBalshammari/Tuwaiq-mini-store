@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using mini_store.Models;
 using mini_store.Data;
+using mini_store.Models;
 
 namespace mini_store.Controllers
 {
@@ -8,58 +8,103 @@ namespace mini_store.Controllers
     {
         private readonly AppDbContext _context;
 
-        public CategoriesController(AppDbContext cn)
+          // 
+        public static int Amount = 100;
+
+        public CategoriesController(AppDbContext context)
         {
-            _context = cn;
+            _context = context;
         }
 
+        // عرض جميع الفئات
         public IActionResult Index()
         {
-            var categories = _context.categories.ToList();
+            // ==========================
+            // Cookies (تمرين 31 و 32)
+            // ==========================
+
+            CookieOptions options = new CookieOptions();
+
+            options.Expires = DateTime.Now.AddDays(7);
+
+            Response.Cookies.Append("Costumers", "Ahmed", options);
+            Response.Cookies.Append("Course", "Asp.net Core MVC");
+            Response.Cookies.Append("Order", "250");
+
+            // ==========================
+            // Session (تمرين 33)
+            // ==========================
+
+            HttpContext.Session.SetString("UserName", "Ahmed");
+            HttpContext.Session.SetInt32("UserId", 105);
+
+            // ==========================
+
+            var categories = _context.Categories.ToList();
 
             return View(categories);
         }
 
+        // إضافة فئة
         [HttpPost]
-        public IActionResult Create(Categories categories)
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Categories category)
         {
-            _context.categories.Add(categories);
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(Index));
+            }
 
+            _context.Categories.Add(category);
             _context.SaveChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
+
+        // تعديل
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var category = _context.Categories.Find(id);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            return View(category);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Categories category)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(category);
+            }
+
+            _context.Categories.Update(category);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // حذف
+        [HttpGet]
         public IActionResult Delete(int id)
-{
-    var category = _context.categories.Find(id);
+        {
+            var category = _context.Categories.Find(id);
 
-    if (category != null)
-    {
-        _context.categories.Remove(category);
-        _context.SaveChanges();
-    }
+            if (category == null)
+            {
+                return NotFound();
+            }
 
-    return RedirectToAction("Index");
-}
+            _context.Categories.Remove(category);
+            _context.SaveChanges();
 
-public IActionResult Edit(int id)
-{
-    var category = _context.categories.Find(id);
-
-    if (category == null)
-        return RedirectToAction("Index");
-
-    return View(category);
-}
-
-[HttpPost]
-public IActionResult Edit(Categories category)
-{
-    _context.categories.Update(category);
-    _context.SaveChanges();
-
-    return RedirectToAction("Index");
-}
-
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

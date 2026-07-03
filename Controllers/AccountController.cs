@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using mini_store.Models;
 using mini_store.ViewModels;
-using System.Threading.Tasks;
 
 namespace mini_store.Controllers
 {
@@ -18,6 +17,10 @@ namespace mini_store.Controllers
             _signInManager = signInManager;
             _userManager = userManager;
         }
+
+        // =========================
+        // Login
+        // =========================
 
         [HttpGet]
         public IActionResult Login(string returnUrl = "/")
@@ -39,10 +42,16 @@ namespace mini_store.Controllers
                 model.Email,
                 model.Password,
                 model.RememberMe,
-                false);
+                lockoutOnFailure: false);
 
             if (result.Succeeded)
             {
+                if (!string.IsNullOrEmpty(model.ReturnUrl) &&
+                    Url.IsLocalUrl(model.ReturnUrl))
+                {
+                    return Redirect(model.ReturnUrl);
+                }
+
                 return RedirectToAction("Index", "Home");
             }
 
@@ -50,6 +59,10 @@ namespace mini_store.Controllers
 
             return View(model);
         }
+
+        // =========================
+        // Register
+        // =========================
 
         [HttpGet]
         public IActionResult Register()
@@ -75,7 +88,8 @@ namespace mini_store.Controllers
 
             if (result.Succeeded)
             {
-                await _signInManager.SignInAsync(user, false);
+                await _signInManager.SignInAsync(user, isPersistent: false);
+
                 return RedirectToAction("Index", "Home");
             }
 
@@ -87,13 +101,17 @@ namespace mini_store.Controllers
             return View(model);
         }
 
+        // =========================
+        // Logout
+        // =========================
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
 
-            return RedirectToAction("Login", "Account");
+            return RedirectToAction(nameof(Login));
         }
     }
 }

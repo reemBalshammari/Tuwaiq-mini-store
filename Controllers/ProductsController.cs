@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using mini_store.Data;
 using mini_store.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace mini_store.Controllers
 {
@@ -16,109 +16,191 @@ namespace mini_store.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-       public IActionResult Index(string? searchTerm)
-{
-    var categories = _context.categories.ToList();
-    ViewBag.categories = categories;
+        // عرض المنتجات
+        public IActionResult Index(string? searchTerm)
+        {
+            // ==========================
+            // Cookies (تمرين 31 و 32)
+            // ==========================
 
-    var productsQuery = _context.Products.AsQueryable();
+            var customersName = Request.Cookies["Costumers"];
+            Console.WriteLine("CustomersName: " + customersName);
 
-    if (!string.IsNullOrEmpty(searchTerm))
-    {
-        productsQuery = productsQuery.Where(p => p.Name.Contains(searchTerm));
-    }
+            var courseName = Request.Cookies["Course"];
+            Console.WriteLine("CourseName: " + courseName);
 
-    ViewBag.CurrentSearch = searchTerm;
+            var orderId = Request.Cookies["Order"];
+            Console.WriteLine("OrderId: " + orderId);
+            // قراءة الـ Session
 
-    var products = productsQuery.ToList();
+            var userName = HttpContext.Session.GetString("UserName");
+            Console.WriteLine("UserName: " + userName);
 
-    return View(products);
-}
+            var userId = HttpContext.Session.GetInt32("UserId");
+            Console.WriteLine("UserId: " + userId);
+
+            // ==========================
+
+            ViewBag.Categories = _context.Categories.ToList();
+
+            IQueryable<Product> products = _context.Products;
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                products = products.Where(p => p.Name.Contains(searchTerm));
+            }
+
+            ViewBag.CurrentSearch = searchTerm;
+
+            return View(products.ToList());
+        }
+
+        // إنشاء منتج
+        [HttpGet]
         public IActionResult Create()
         {
-            ViewBag.categories = _context.categories.ToList();
+            ViewBag.Categories = _context.Categories.ToList();
 
-            return View("Index", _context.Products.ToList());
+            return View();
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(Product product)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                if (product.ImageFile != null)
+                ViewBag.Categories = _context.Categories.ToList();
+                return View(product);
+            }
+
+            if (product.ImageFile != null)
+            {
+                string folder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+
+                if (!Directory.Exists(folder))
                 {
-                    string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
-
-                    if (!Directory.Exists(uploadsFolder))
-                    {
-                        Directory.CreateDirectory(uploadsFolder);
-                    }
-
-                    string extension = Path.GetExtension(product.ImageFile.FileName);
-                    string uniqueFileName = Guid.NewGuid().ToString() + extension;
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                    product.Image = uniqueFileName;
-
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        product.ImageFile.CopyTo(fileStream);
-                    }
+                    Directory.CreateDirectory(folder);
                 }
 
-                _context.Products.Add(product);
-                _context.SaveChanges();
+                string fileName = Guid.NewGuid().ToString() +
+                                  Path.GetExtension(product.ImageFile.FileName);
 
-                return RedirectToAction(nameof(Index));
+                string filePath = Path.Combine(folder, fileName);
+
+                using (FileStream stream = new FileStream(filePath, FileMode.Create))
+                {
+                    product.ImageFile.CopyTo(stream);
+                }
+
+                product.Image = fileName;
             }
 
-            ViewBag.categories = _context.categories.ToList();
-
-            return View("Index", _context.Products.ToList());
-        }
-
-        public IActionResult Delete(int id)
-        {
-            var product = _context.Products.Find(id);
-
-            if (product != null)
-            {
-                _context.Products.Remove(product);
-                _context.SaveChanges();
-            }
+            _context.Products.Add(product);
+            _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
         }
 
+        // تعديل
+        [HttpGet]
         public IActionResult Edit(int id)
         {
             var product = _context.Products.Find(id);
 
             if (product == null)
-            {
-                return RedirectToAction(nameof(Index));
-            }
+                return NotFound();
 
-            ViewBag.categories = _context.categories.ToList();
+            ViewBag.Categories = _context.Categories.ToList();
 
             return View(product);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(Product product)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.Products.Update(product);
-                _context.SaveChanges();
-
-                return RedirectToAction(nameof(Index));
+                ViewBag.Categories = _context.Categories.ToList();
+                return View(product);
             }
 
-            ViewBag.categories = _context.categories.ToList();
+            var oldProduct = _context.Products
+                .AsNoTracking()
+                .FirstOrDefault(x => x.Id == product.Id);
 
-            return View(product);
+            if (oldProduct == null)
+                return NotFound();
+
+            if (product.ImageFile != null)
+            {
+                string folder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+
+                if (!Directory.Exists(folder))
+                {
+                    Directory.CreateDirectory(folder);
+                }
+
+                string fileName = Guid.NewGuid().ToString() +
+                                  Path.GetExtension(product.ImageFile.FileName);
+
+                string filePath = Path.Combine(folder, fileName);
+
+                using (FileStream stream = new FileStream(filePath, FileMode.Create))
+                {
+                    product.ImageFile.CopyTo(stream);
+                }
+
+                product.Image = fileName;
+
+                if (!string.IsNullOrEmpty(oldProduct.Image))
+                {
+                    string oldImage = Path.Combine(folder, oldProduct.Image);
+
+                    if (System.IO.File.Exists(oldImage))
+                    {
+                        System.IO.File.Delete(oldImage);
+                    }
+                }
+            }
+            else
+            {
+                product.Image = oldProduct.Image;
+            }
+
+            _context.Products.Update(product);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // حذف
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            var product = _context.Products.Find(id);
+
+            if (product == null)
+                return NotFound();
+
+            if (!string.IsNullOrEmpty(product.Image))
+            {
+                string imagePath = Path.Combine(
+                    _webHostEnvironment.WebRootPath,
+                    "images",
+                    product.Image);
+
+                if (System.IO.File.Exists(imagePath))
+                {
+                    System.IO.File.Delete(imagePath);
+                }
+            }
+
+            _context.Products.Remove(product);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

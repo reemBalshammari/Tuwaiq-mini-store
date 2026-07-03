@@ -4,14 +4,17 @@ namespace mini_store.ViewModels
 {
     public class LoginViewModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid Email")]
+        [Display(Name = "Email")]
         public string Email { get; set; } = "";
 
-        [Required]
+        [Required(ErrorMessage = "Password is required")]
         [DataType(DataType.Password)]
+        [Display(Name = "Password")]
         public string Password { get; set; } = "";
 
+        [Display(Name = "Remember Me")]
         public bool RememberMe { get; set; }
 
         public string? ReturnUrl { get; set; }

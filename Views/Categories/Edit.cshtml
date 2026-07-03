@@ -1,27 +1,42 @@
 @model mini_store.Models.Categories
 
+@{
+    ViewData["Title"] = "Edit Category";
+}
+
 <div class="container mt-4" dir="rtl">
 
-    <h2>Edit Product</h2>
+    <h2 class="mb-4">تعديل الفئة</h2>
 
-    <form method="post">
+    <form asp-action="Edit" method="post">
 
-        <input asp-for="Id" hidden />
+        <input asp-for="Id" type="hidden" />
 
-        <div>
-            <label>Name</label>
-            <input asp-for="Name" />
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">اسم الفئة</label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
-        <div>
-            <label>Price</label>
-            <input asp-for="Icon" />
+        <div class="mb-3">
+            <label asp-for="Icon" class="form-label">أيقونة الفئة</label>
+            <input asp-for="Icon" class="form-control" />
+            <span asp-validation-for="Icon" class="text-danger"></span>
         </div>
 
-        <br />
+        <button type="submit" class="btn btn-success">
+            حفظ التعديل
+        </button>
 
-        <button type="submit">Update</button>
+        <a asp-action="Index" class="btn btn-secondary">
+            رجوع
+        </a>
 
     </form>
 
 </div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

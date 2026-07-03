@@ -2,49 +2,75 @@
 
 @{
     Layout = "_DashboardLayout";
+    ViewData["Title"] = "Edit Product";
 }
 
 <div class="container mt-4" dir="rtl">
 
     <h2 class="text-center mb-4">تعديل المنتج</h2>
 
-    <form asp-action="Edit" method="post">
+    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+
+        @Html.AntiForgeryToken()
 
         <input asp-for="Id" type="hidden" />
+        <input asp-for="Image" type="hidden" />
 
         <div class="mb-3">
-            <label>اسم المنتج</label>
+            <label asp-for="Name" class="form-label">اسم المنتج</label>
             <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label>سعر المنتج</label>
+            <label asp-for="Price" class="form-label">سعر المنتج</label>
             <input asp-for="Price" class="form-control" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.Image))
+        {
+            <div class="mb-3">
+                <label class="form-label">الصورة الحالية</label><br />
+                <img src="~/images/@Model.Image"
+                     width="120"
+                     class="img-thumbnail" />
+            </div>
+        }
+
+        <div class="mb-3">
+            <label asp-for="ImageFile" class="form-label">تغيير الصورة</label>
+            <input asp-for="ImageFile"
+                   type="file"
+                   class="form-control" />
+            <span asp-validation-for="ImageFile" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label>صورة المنتج</label>
-            <input asp-for="Image" class="form-control" />
-        </div>
+            <label asp-for="CategoryId" class="form-label">الفئة</label>
 
-        <div class="mb-3">
-            <label>الفئة</label>
-            <select asp-for="CategoryId" class="form-select">
-                @foreach (var item in ViewBag.categories)
-                {
-                    <option value="@item.Id">@item.Name</option>
-                }
+            <select asp-for="CategoryId"
+                    class="form-select"
+                    asp-items="@(new SelectList(ViewBag.Categories,"Id","Name"))">
             </select>
+
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
         </div>
 
         <button type="submit" class="btn btn-success">
-            Update
+            حفظ التعديل
         </button>
 
-        <a href="/Products" class="btn btn-secondary">
+        <a asp-action="Index"
+           class="btn btn-secondary">
             رجوع
         </a>
 
     </form>
 
 </div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

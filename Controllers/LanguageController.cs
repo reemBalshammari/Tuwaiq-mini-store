@@ -1,21 +1,25 @@
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace mini_store.Controllers;
-
-public class LanguageController : Controller
+namespace mini_store.Controllers
 {
-    [HttpPost]
-    public IActionResult SetLanguage(string culture, string returnUrl)
+    public class LanguageController : Controller
     {
-        Response.Cookies.Append(
-            CookieRequestCultureProvider.DefaultCookieName,
-            CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-            new CookieOptions
-            {
-                Expires = DateTimeOffset.UtcNow.AddYears(1)
-            });
+        [HttpPost]
+        public IActionResult SetLanguage(string culture, string returnUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(
+                    new RequestCulture(culture)),
+                new CookieOptions
+                {
+                    Expires = DateTimeOffset.UtcNow.AddYears(1),
+                    IsEssential = true,
+                    HttpOnly = true
+                });
 
-        return LocalRedirect(returnUrl);
+            return LocalRedirect(returnUrl);
+        }
     }
 }
