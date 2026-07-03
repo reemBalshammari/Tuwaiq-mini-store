@@ -66,7 +66,7 @@ namespace mini_store.Controllers
         public IActionResult Index()
         {
             // Session
-            HttpContext.Session.SetString("UserName", "Ahmed");
+            HttpContext.Session.SetString("UserName", "EngReem");
             HttpContext.Session.SetInt32("UserId", 105);
 
             ViewBag.CategoriesList = _categories;
